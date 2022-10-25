@@ -16,7 +16,6 @@ public class MainManager : MonoBehaviour
     
     private bool m_Started = false;
     private int m_Points;
-    private int m_BestScore = 0;
     
     private bool m_GameOver = false;
 
@@ -26,7 +25,8 @@ public class MainManager : MonoBehaviour
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        BestScoreText.text = $" Best score : {BestScoreManager.Instance.PlayerName} : {BestScoreManager.Instance.PlayerBestScore}";
+        BestScoreManager.Instance.LoadBestScore();
+        BestScoreText.text = $" Best score : {BestScoreManager.Instance.BestScorePlayerName} : {BestScoreManager.Instance.BestScore}";
         
         int[] pointCountArray = new [] {1,1,2,2,5,5};
         for (int i = 0; i < LineCount; ++i)
@@ -75,10 +75,11 @@ public class MainManager : MonoBehaviour
 
     private void bestScore()
     {
-        if(m_Points > BestScoreManager.Instance.PlayerBestScore)
+        if(m_Points > BestScoreManager.Instance.BestScore)
         {
             BestScoreManager.Instance.PlayerBestScore = m_Points;
             BestScoreText.text = $" Best score : {BestScoreManager.Instance.PlayerName} : {BestScoreManager.Instance.PlayerBestScore}";
+            BestScoreManager.Instance.SaveBestScore();
         }
     }
 
